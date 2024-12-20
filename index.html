@@ -26,8 +26,10 @@
                 "Whole square is: " + i;
         }
     </script>
+    <script> const canvas = document.getElementById('matrix'); const context = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%"; const fontSize = 16; const columns = canvas.width / fontSize; const drops = []; for (let x = 0; x < columns; x++) { drops[x] = 1; } function draw() { context.fillStyle = "rgba(0, 0, 0, 0.05)"; context.fillRect(0, 0, canvas.width, canvas.height); context.fillStyle = "#0F0"; context.font = fontSize + "px monospace"; for (let i = 0; i < drops.length; i++) { const text = matrix[Math.floor(Math.random() * matrix.length)]; context.fillText(text, i * fontSize, drops[i] * fontSize); if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) { drops[i] = 0; } drops[i]++; } } setInterval(draw, 33); </script>
 </head>
 <body bgcolor="Aquamarine">
+    <canvas id="matrix"></canvas>
     <div class="background">
     </div>
     <h1>Multiplication and Other Operations</h1>
@@ -45,6 +47,9 @@
            background-image: url("https://www.bing.com/images/search?view=detailV2&ccid=Xgnuh8d0&id=A3164D6A7FE0900529D2A8FEFBB34C2F5CD94D35&thid=OIP.Xgnuh8d0mue7vXkxieYlgwHaEo&mediaurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.5e09ee87c7749ae7bbbd793189e62583%3frik%3dNU3ZXC9Ms%252fv%252bqA%26riu%3dhttp%253a%252f%252fwww.pixelstalk.net%252fwp-content%252fuploads%252f2016%252f05%252fAwesome-Really-Cool-Background.jpg%26ehk%3dEuevmSbyXmFOYXrP%252bB87bzIea3bUbB838CPa4oEyhFE%253d%26risl%3d%26pid%3dImgRaw%26r%3d0&exph=1200&expw=1920&q=cool+background+images&simid=608020039825123885&FORM=IRPRST&ck=14F02D68B20FF60E359DFFC278E6228F&selectedIndex=10&itb=0");
            height:1000
                width:1000
+        }
+        canvas {
+        display: block;
         }
     </style>
 </head>
