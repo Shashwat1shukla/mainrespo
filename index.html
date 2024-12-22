@@ -2,105 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator with Matrix Rain</title>
+    <title>Multiplication Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            color: #00ff00;
-            background-color: #000000;
-            overflow: hidden;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
         }
-        input, button {
-            margin: 5px;
-            background: #000000;
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            font-size: 3em; /* Increased font size 3x */
-            padding: 10px; /* Add padding to make it larger */
-        }
-        h1 {
-            color: #00ff00;
-            font-size: 3em; /* Increased font size 3x */
-        }
-        h2 {
-            color: #00ff00;
-            font-size: 2em; /* Size for the author heading */
-        }
-        p {
-            margin: 5px;
-            font-size: 3em; /* Increased font size 3x */
-        }
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
+        input, button { margin: 10px; padding: 5px; }
+        #result { margin-top: 20px; line-height: 1.6; }
     </style>
 </head>
 <body>
-    <h1>Simple Calculator</h1>
-    <h2>Created by Shashwat Shukla</h2>
-    <label for="num1">Number 1:</label>
-    <input type="number" id="num1" required><br>
-    <label for="num2">Number 2:</label>
-    <input type="number" id="num2" required><br>
+    <h2 id="heading"></h2>
+    <input type="number" id="number1" placeholder="Enter first number">
+    <input type="number" id="number2" placeholder="Enter second number">
     <button onclick="calculate()">Calculate</button>
-    <div id="results"></div>
-
-    <canvas id="matrixRain"></canvas>
+    <div id="result"></div>
 
     <script>
-        function calculate() {
-            const num1 = parseFloat(document.getElementById('num1').value);
-            const num2 = parseFloat(document.getElementById('num2').value);
-            if (isNaN(num1) || isNaN(num2)) {
-                alert("Please enter valid numbers");
-                return;
-            }
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = `
-                <p>Addition: ${num1 + num2}</p>
-                <p>Subtraction: ${num1 - num2}</p>
-                <p>Multiplication: ${num1 * num2}</p>
-                <p>Division: ${num1 / num2}</p>
-                <p>Modulus: ${num1 % num2}</p>
-            `;
-        }
-
-        // Matrix Rain Animation
-        const canvas = document.getElementById('matrixRain');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const fontSize = 18;
-        const columns = canvas.width / fontSize;
-
-        const drops = Array.from({ length: columns }).map(() => 1);
-
-        function draw() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = '#00ff00';
-            ctx.font = `${fontSize}px monospace`;
-
-            drops.forEach((y, x) => {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, x * fontSize, y * fontSize);
-
-                if (y * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[x] = 0;
+        const typeWriter = (text, elementId, delay = 50) => {
+            let i = 0;
+            const element = document.getElementById(elementId);
+            element.innerHTML = ''; // Clear existing content
+            const interval = setInterval(() => {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i++);
+                } else {
+                    clearInterval(interval);
                 }
-                drops[x]++;
-            });
+            }, delay);
         }
 
-        setInterval(draw, 33);
+        const calculate = () => {
+            let a = parseInt(document.getElementById('number1').value);
+            let b = parseInt(document.getElementById('number2').value);
+
+            let x = a * b, y = a / b, z = (a + b) / 2, j = a + b, k = a - b;
+            let i = a * a + b * b + (2 * a * b);
+
+            let resultsText = `Sum: ${j}\nDifference: ${k}\nMultiplication: ${x}\nDivision: ${y}\nAverage: ${z}\nWhole square: ${i}`;
+            typeWriter(resultsText, 'result');
+        }
+
+        window.onload = () => typeWriter('Multiplication and Calculation', 'heading');
     </script>
 </body>
 </html>
