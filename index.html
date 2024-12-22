@@ -61,3 +61,66 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multiplication Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-image: url('https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/129325364/original/afaddcb9d7dfaaf5bff7ef04101935814665ac16/design-an-attractive-background-for-your-website.png');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff; /* Adjust text color for better contrast */
+        }
+        input, button { margin: 10px; padding: 5px; }
+        #result { margin-top: 20px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <h2 id="heading"></h2>
+    <input type="number" id="number1" placeholder="Enter first number">
+    <input type="number" id="number2" placeholder="Enter second number">
+    <button onclick="calculate()">Calculate</button>
+    <div id="result"></div>
+
+    <script>
+        const typeWriter = (text, elementId, delay = 50) => {
+            let i = 0;
+            const element = document.getElementById(elementId);
+            element.innerHTML = ''; // Clear existing content
+            const interval = setInterval(() => {
+                if (i < text.length) {
+                    const span = document.createElement('span');
+                    const r = Math.floor(Math.random() * 256);
+                    const g = Math.floor(Math.random() * 256);
+                    const b = Math.floor(Math.random() * 256);
+                    span.style.color = `rgb(${r},${g},${b})`;
+                    span.textContent = text.charAt(i++);
+                    element.appendChild(span);
+                } else {
+                    clearInterval(interval);
+                }
+            }, delay);
+        }
+
+        const calculate = () => {
+            let a = parseInt(document.getElementById('number1').value);
+            let b = parseInt(document.getElementById('number2').value);
+
+            let x = a * b, y = a / b, z = (a + b) / 2, j = a + b, k = a - b;
+            let i = a * a + b * b + (2 * a * b);
+
+            let resultsText = `Sum: ${j}\nDifference: ${k}\nMultiplication: ${x}\nDivision: ${y}\nAverage: ${z}\nWhole square: ${i}`;
+            typeWriter(resultsText, 'result');
+        }
+
+        window.onload = () => typeWriter('Multiplication and Calculation', 'heading');
+    </script>
+</body>
+</html>
