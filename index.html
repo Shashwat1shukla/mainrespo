@@ -10,6 +10,10 @@
             margin: 0 auto;
             padding: 20px;
             text-align: center;
+            background-image: url('https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/129325364/original/afaddcb9d7dfaaf5bff7ef04101935814665ac16/design-an-attractive-background-for-your-website.png');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff; /* Adjust text color for better contrast */
         }
         input, button { margin: 10px; padding: 5px; }
         #result { margin-top: 20px; line-height: 1.6; }
@@ -29,7 +33,13 @@
             element.innerHTML = ''; // Clear existing content
             const interval = setInterval(() => {
                 if (i < text.length) {
-                    element.innerHTML += text.charAt(i++);
+                    const span = document.createElement('span');
+                    const r = Math.floor(Math.random() * 256);
+                    const g = Math.floor(Math.random() * 256);
+                    const b = Math.floor(Math.random() * 256);
+                    span.style.color = `rgb(${r},${g},${b})`;
+                    span.textContent = text.charAt(i++);
+                    element.appendChild(span);
                 } else {
                     clearInterval(interval);
                 }
