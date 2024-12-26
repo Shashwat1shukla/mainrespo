@@ -2,125 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Multiplication Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication & Number Generators</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-            background-image: url('https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/129325364/original/afaddcb9d7dfaaf5bff7ef04101935814665ac16/design-an-attractive-background-for-your-website.png');
-            background-size: cover;
-            background-position: center;
-            color: #ffffff; /* Adjust text color for better contrast */
-        }
-        input, button { margin: 10px; padding: 5px; }
-        #result { margin-top: 20px; line-height: 1.6; }
+        body { font-family: Arial, sans-serif; background: url('https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/129325364/original/afaddcb9d7dfaaf5bff7ef04101935814665ac16/design-an-attractive-background-for-your-website.png') center/cover; color: #fff; text-align: center; padding: 30px; }
+        input, button { margin: 10px; padding: 10px; width: 70%; max-width: 300px; border-radius: 5px; border: none; background: rgba(255,255,255,0.7); }
+        button { background: rgba(0, 128, 0, 0.8); color: white; cursor: pointer; }
+        button:hover { background: rgba(0, 128, 0, 1); }
+        .container { max-width: 600px; margin: 0 auto; }
+        .spacer { margin-top: 50px; }
     </style>
 </head>
 <body>
-    <h2 id="heading"></h2>
-    <input type="number" id="number1" placeholder="Enter first number">
-    <input type="number" id="number2" placeholder="Enter second number">
-    <button onclick="calculate()">Calculate</button>
-    <div id="result"></div>
+    <div class="container">
+        <h1 id="heading"></h1>
+        <div>
+            <input id="num1" type="number" placeholder="First number" />
+            <input id="num2" type="number" placeholder="Second number" />
+            <button onclick="calculate()">Calculate</button>
+        </div>
+        <div id="result"></div>
+
+        <div class="spacer"></div>
+
+        <h2 id="primeHeading"></h2>
+        <div>
+            <input id="primeLimit" type="number" placeholder="Prime limit" />
+            <button onclick="generatePrimes()">Generate Primes</button>
+        </div>
+        <div id="primeResult"></div>
+
+        <div class="spacer"></div>
+
+        <h2 id="squareHeading"></h2>
+        <div>
+            <input id="squareLimit" type="number" placeholder="Perfect square limit" />
+            <button onclick="generatePerfectSquares()">Generate Squares</button>
+        </div>
+        <div id="squareResult"></div>
+    </div>
 
     <script>
-        const typeWriter = (text, elementId, delay = 50) => {
-            let i = 0;
-            const element = document.getElementById(elementId);
-            element.innerHTML = ''; // Clear existing content
-            const interval = setInterval(() => {
-                if (i < text.length) {
-                    const span = document.createElement('span');
-                    const r = Math.floor(Math.random() * 256);
-                    const g = Math.floor(Math.random() * 256);
-                    const b = Math.floor(Math.random() * 256);
-                    span.style.color = `rgb(${r},${g},${b})`;
-                    span.textContent = text.charAt(i++);
-                    element.appendChild(span);
-                } else {
-                    clearInterval(interval);
-                }
-            }, delay);
-        }
+        const typeWriter = (text, id) => {
+            const el = document.getElementById(id);
+            el.innerHTML = ''; 
+            [...text].forEach((char, i) => setTimeout(() => el.innerHTML += `<span style="color: rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})">${char}</span>`, 50 * i));
+        };
 
         const calculate = () => {
-            let a = parseInt(document.getElementById('number1').value);
-            let b = parseInt(document.getElementById('number2').value);
+            let a = parseInt(document.getElementById('num1').value);
+            let b = parseInt(document.getElementById('num2').value);
+            if (isNaN(a) || isNaN(b)) return typeWriter("Enter valid numbers.", 'result');
+            let result = `Sum: ${a + b}<br>Difference: ${a - b}<br>Multiplication: ${a * b}<br>Division: ${a / b}<br>Average: ${(a + b) / 2}<br>Whole square: ${a * a + b * b + 2 * a * b}`;
+            typeWriter(result, 'result');
+        };
 
-            let x = a * b, y = a / b, z = (a + b) / 2, j = a + b, k = a - b;
-            let i = a * a + b * b + (2 * a * b);
+        const generatePrimes = () => {
+            let limit = parseInt(document.getElementById('primeLimit').value);
+            if (isNaN(limit) || limit <= 1) return typeWriter("Enter a valid limit.", 'primeResult');
+            let primes = [];
+            for (let i = 2; i <= limit; i++) if ([...Array(i).keys()].slice(2).every(j => i % j)) primes.push(i);
+            typeWriter(`Primes up to ${limit}:<br>${primes.join(', ')}`, 'primeResult');
+        };
 
-            let resultsText = `Sum: ${j}\nDifference: ${k}\nMultiplication: ${x}\nDivision: ${y}\nAverage: ${z}\nWhole square: ${i}`;
-            typeWriter(resultsText, 'result');
-        }
+        const generatePerfectSquares = () => {
+            let limit = parseInt(document.getElementById('squareLimit').value);
+            if (isNaN(limit) || limit <= 1) return typeWriter("Enter a valid limit.", 'squareResult');
+            let squares = [...Array(Math.floor(Math.sqrt(limit)) + 1).keys()].map(i => i * i).filter(i => i <= limit);
+            typeWriter(`Squares up to ${limit}:<br>${squares.join(', ')}`, 'squareResult');
+        };
 
-        window.onload = () => typeWriter('Multiplication and Calculation', 'heading');
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Multiplication Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-            background-image: url('https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/129325364/original/afaddcb9d7dfaaf5bff7ef04101935814665ac16/design-an-attractive-background-for-your-website.png');
-            background-size: cover;
-            background-position: center;
-            color: #ffffff; /* Adjust text color for better contrast */
-        }
-        input, button { margin: 10px; padding: 5px; }
-        #result { margin-top: 20px; line-height: 1.6; }
-    </style>
-</head>
-<body>
-    <h2 id="heading"></h2>
-    <input type="number" id="number1" placeholder="Enter first number">
-    <input type="number" id="number2" placeholder="Enter second number">
-    <button onclick="calculate()">Calculate</button>
-    <div id="result"></div>
-
-    <script>
-        const typeWriter = (text, elementId, delay = 50) => {
-            let i = 0;
-            const element = document.getElementById(elementId);
-            element.innerHTML = ''; // Clear existing content
-            const interval = setInterval(() => {
-                if (i < text.length) {
-                    const span = document.createElement('span');
-                    const r = Math.floor(Math.random() * 256);
-                    const g = Math.floor(Math.random() * 256);
-                    const b = Math.floor(Math.random() * 256);
-                    span.style.color = `rgb(${r},${g},${b})`;
-                    span.textContent = text.charAt(i++);
-                    element.appendChild(span);
-                } else {
-                    clearInterval(interval);
-                }
-            }, delay);
-        }
-
-        const calculate = () => {
-            let a = parseInt(document.getElementById('number1').value);
-            let b = parseInt(document.getElementById('number2').value);
-
-            let x = a * b, y = a / b, z = (a + b) / 2, j = a + b, k = a - b;
-            let i = a * a + b * b + (2 * a * b);
-
-            let resultsText = `Sum: ${j}\nDifference: ${k}\nMultiplication: ${x}\nDivision: ${y}\nAverage: ${z}\nWhole square: ${i}`;
-            typeWriter(resultsText, 'result');
-        }
-
-        window.onload = () => typeWriter('Multiplication and Calculation', 'heading');
+        window.onload = () => {
+            typeWriter('Multiplication & Calculation', 'heading');
+            typeWriter('Prime Number Generator', 'primeHeading');
+            typeWriter('Perfect Square Generator', 'squareHeading');
+        };
     </script>
 </body>
 </html>
